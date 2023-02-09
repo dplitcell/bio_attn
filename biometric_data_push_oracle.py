@@ -47,19 +47,13 @@ if __name__ == "__main__":
         else:
             stage_3.iloc[i, 4] = "PRESENT"
 
-    #try:
-        # Change the name of Python's Oracle CLient folder
-        #cx_Oracle.init_oracle_client(lib_dir=r"D:/instantclient_21_3")
-    #except Exception as e:
-        #print(e)
-        #logger.debug(e)
 
     stage_4 = stage_3.dropna(subset=['In'], how='all')
     stage_4 = stage_4.astype(str)
     stage_4.to_excel("K:/Datacore/DGP/admin_building_attn.xlsx",index=False)
 
     try:
-        #con = cx_Oracle.connect('dplapp/dplapp@172.16.0.51:1521/pamsprod')
+
         con = orcl.make_connection()
         cursor_prod = con.cursor()
         # delete the current records
