@@ -2,22 +2,15 @@ import cx_Oracle
 import pandas as pd
 import warnings
 import logging
-
-#import math
-
 import orcl
 
-
-
 if __name__ == "__main__":
-
 
     logging.basicConfig(filename="bio_attn_admin_building.log",
                         format='%(asctime)s %(message)s',
                         filemode='w')
     logger = logging.getLogger()
     logger.setLevel(logging.DEBUG)
-
     pd.set_option('mode.chained_assignment', None)
 
     # Change the name of excel file as per the saved file name
@@ -31,7 +24,7 @@ if __name__ == "__main__":
     for i in range(stage_3.shape[0]):
         emp_no = stage_3.iloc[i, 0]
 
-        if (type(emp_no) == int):
+        if type(emp_no) == int:
 
             emp_no = emp_code
         else:
@@ -41,12 +34,10 @@ if __name__ == "__main__":
 
     for i in range(stage_3.shape[0]):
 
-        # print(type(stage_3.iloc[i,2]))
-        if (type(stage_3.iloc[i, 2]) == float):
+        if type(stage_3.iloc[i, 2]) == float:
             stage_3.iloc[i, 4] = "ABSENT"
         else:
             stage_3.iloc[i, 4] = "PRESENT"
-
 
     stage_4 = stage_3.dropna(subset=['In'], how='all')
     stage_4 = stage_4.astype(str)
