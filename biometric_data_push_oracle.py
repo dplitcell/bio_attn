@@ -14,7 +14,7 @@ if __name__ == "__main__":
     pd.set_option('mode.chained_assignment', None)
 
     # Change the name of excel file as per the saved file name
-    df = pd.read_excel('d:/1.xlsx', skiprows=[0, 1, 2, 3, 4])
+    df = pd.read_excel('d:/5.xlsx', skiprows=[0, 1, 2, 3, 4])
     stage_1 = df[['EmployeeNo', 'Date', 'In', 'Out']]
     stage_2 = stage_1[stage_1['EmployeeNo'] != 'Summary']
     stage_3 = stage_2[~(stage_2['Date'].astype(str).str.contains('NaT'))]
@@ -39,9 +39,12 @@ if __name__ == "__main__":
         else:
             stage_3.iloc[i, 4] = "PRESENT"
 
-    stage_4 = stage_3.dropna(subset=['In'], how='all')
+    stage_4 = stage_3.dropna(subset=['In','Out'], how='all')
+
     stage_4 = stage_4.astype(str)
-    stage_4.to_excel("K:/Datacore/DGP/admin_building_attn.xlsx",index=False)
+    stage_4["Out"].replace('nan', ' ', inplace=True)
+    stage_4["In"].replace('nan', ' ', inplace=True)
+    stage_4.to_excel("K:/Datacore/DGP/bio_attn_admin_building5.xlsx",index=False)
 
     try:
 
