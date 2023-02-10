@@ -41,12 +41,11 @@ if __name__ == "__main__":
     except Exception as e:
         print(e)
 
-
     stage_4["Out"].replace('nan', ' ', inplace=True)
     stage_4["In"].replace('nan', ' ', inplace=True)
-    temp_df_1 = stage_4[["EmployeeNo","In-dt","Date"]]
+    temp_df_1 = stage_4[["EmployeeNo", "In-dt", "Date"]]
     temp_df_1['in_out_flag']='1'
-    temp_df_2= stage_4[["EmployeeNo", "Out-dt","Date"]]
+    temp_df_2= stage_4[["EmployeeNo", "Out-dt", "Date"]]
     temp_df_2['in_out_flag'] = '2'
     temp_df_1.rename(columns={"In-dt": "punch_time","Date":"attn_date"}, inplace=True)
     temp_df_2.rename(columns={"Out-dt": "punch_time","Date":"attn_date"}, inplace=True)
@@ -58,6 +57,7 @@ if __name__ == "__main__":
 
         con = orcl.make_connection()
         cursor_prod = con.cursor()
+        cpu_id = "ADM"
 
         for i in range(result_df.shape[0]):
             emp_code = result_df.iloc[i, 0]
@@ -66,8 +66,10 @@ if __name__ == "__main__":
             in_out_flag = result_df.iloc[i, 3]
 
             insert_query = f"insert into BIO_ATTN_ADMIN_TEMP(emp_no,attn_date,punch_time,in_out_flag) values('{emp_code}',to_date('{attn_date}','yyyy-mm-dd'),to_date('{punch_time}','yyyy-mm-dd hh24:mi:ss'),'{in_out_flag}')"
+            insert_query_datacore = f"insert into BIO_ATTN_LIVE_DATA(emp_no,attendance_date,punch_time,punch_time_str,in_out_code,cpu_id) values('{emp_code}',to_date('{attn_date}','yyyy-mm-dd'),to_date('{punch_time}','yyyy-mm-dd hh24:mi:ss'),'{punch_time}','{in_out_flag}','{cpu_id}')"
             # print(insert_query)
-            cursor_prod.execute(insert_query)
+            cursor_prod.execute(insert_query_datacore)
+            #cursor_prod.execute(insert_query)
         cursor_prod.close()
         con.commit()
         con.close()
