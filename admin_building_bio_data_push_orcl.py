@@ -14,7 +14,7 @@ if __name__ == "__main__":
     pd.set_option('mode.chained_assignment', None)
 
     # Change the name of excel file as per the saved file name
-    df = pd.read_excel('d:/6.xlsx', skiprows=[0, 1, 2, 3, 4])
+    df = pd.read_excel('K:\\BIOADMIN\\admin.xlsx', skiprows=[0, 1, 2, 3, 4])
     stage_1 = df[['EmployeeNo', 'Date', 'In', 'Out']]
     stage_2 = stage_1[stage_1['EmployeeNo'] != 'Summary']
     stage_3 = stage_2[~(stage_2['Date'].astype(str).str.contains('NaT'))]
